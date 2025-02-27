@@ -1,4 +1,4 @@
-package com.deneth.E_Commerce_App.util;
+package com.deneth.management_app.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,10 @@
-package com.deneth.E_Commerce_App;
+package com.deneth.management_app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ECommerceAppApplicationTests {
+class ManagementAppApplicationTests {
 
 	@Test
 	void contextLoads() {

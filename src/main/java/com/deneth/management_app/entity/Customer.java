@@ -1,4 +1,4 @@
-package com.deneth.E_Commerce_App.entity;
+package com.deneth.management_app.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,8 +1,8 @@
-package com.deneth.E_Commerce_App.api;
+package com.deneth.management_app.api;
 
-import com.deneth.E_Commerce_App.dto.request.CustomerRequestDto;
-import com.deneth.E_Commerce_App.service.CustomerService;
-import com.deneth.E_Commerce_App.util.StandardResponseDto;
+import com.deneth.management_app.dto.request.CustomerRequestDto;
+import com.deneth.management_app.service.CustomerService;
+import com.deneth.management_app.util.StandardResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

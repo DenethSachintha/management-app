@@ -1,11 +1,11 @@
-package com.deneth.E_Commerce_App.service.impl;
+package com.deneth.management_app.service.impl;
 
-import com.deneth.E_Commerce_App.dto.request.CustomerRequestDto;
-import com.deneth.E_Commerce_App.dto.response.CustomerResponseDto;
-import com.deneth.E_Commerce_App.dto.response.Paginate.CustomerPaginatedDto;
-import com.deneth.E_Commerce_App.entity.Customer;
-import com.deneth.E_Commerce_App.repository.CustomerRepo;
-import com.deneth.E_Commerce_App.service.CustomerService;
+import com.deneth.management_app.dto.request.CustomerRequestDto;
+import com.deneth.management_app.dto.response.CustomerResponseDto;
+import com.deneth.management_app.dto.response.Paginate.CustomerPaginatedDto;
+import com.deneth.management_app.entity.Customer;
+import com.deneth.management_app.repository.CustomerRepo;
+import com.deneth.management_app.service.CustomerService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;

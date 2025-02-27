@@ -1,6 +1,6 @@
-package com.deneth.E_Commerce_App.dto.response.Paginate;
+package com.deneth.management_app.dto.response.Paginate;
 
-import com.deneth.E_Commerce_App.dto.response.CustomerResponseDto;
+import com.deneth.management_app.dto.response.CustomerResponseDto;
 import lombok.*;
 
 import java.util.List;

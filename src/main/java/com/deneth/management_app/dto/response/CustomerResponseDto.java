@@ -1,4 +1,4 @@
-package com.deneth.E_Commerce_App.dto.response;
+package com.deneth.management_app.dto.response;
 
 import lombok.*;
 

@@ -1,9 +1,9 @@
-package com.deneth.E_Commerce_App.service;
+package com.deneth.management_app.service;
 
 
-import com.deneth.E_Commerce_App.dto.request.CustomerRequestDto;
-import com.deneth.E_Commerce_App.dto.response.CustomerResponseDto;
-import com.deneth.E_Commerce_App.dto.response.Paginate.CustomerPaginatedDto;
+import com.deneth.management_app.dto.request.CustomerRequestDto;
+import com.deneth.management_app.dto.response.CustomerResponseDto;
+import com.deneth.management_app.dto.response.Paginate.CustomerPaginatedDto;
 
 public interface CustomerService {
     public void createCustomer(CustomerRequestDto dto);

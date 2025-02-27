@@ -1,6 +1,6 @@
-package com.deneth.E_Commerce_App.repository;
+package com.deneth.management_app.repository;
 
-import com.deneth.E_Commerce_App.entity.Customer;
+import com.deneth.management_app.entity.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

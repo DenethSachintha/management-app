@@ -1,4 +1,4 @@
-package com.deneth.E_Commerce_App.dto.request;
+package com.deneth.management_app.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,13 +1,13 @@
-package com.deneth.E_Commerce_App;
+package com.deneth.management_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ECommerceAppApplication {
+public class ManagementAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ECommerceAppApplication.class, args);
+		SpringApplication.run(ManagementAppApplication.class, args);
 	}
 
 }
