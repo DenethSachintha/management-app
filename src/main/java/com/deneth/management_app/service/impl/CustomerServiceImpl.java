@@ -80,7 +80,7 @@ public class CustomerServiceImpl
                                         PageRequest.of(
                                                 page,size
                                         )
-                                ).map(e->toCustomerResponseDto(e))
+                                ).map(this::toCustomerResponseDto)
                                 .stream().toList()
                 )
                 .count(

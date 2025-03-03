@@ -1,9 +1,35 @@
-# E-Commerce Application - Spring Boot REST API
+# Management_app - Spring Boot REST API
 
 ## Overview
 
-This is a Spring Boot-based e-commerce application that provides RESTful APIs for managing customers. The following API endpoints allow for creating, updating, deleting, retrieving, and searching customer records.
-
+This is a Spring Boot-based management application that provides RESTful APIs for managing customers, Products. The following API endpoints allow for creating, updating, deleting, retrieving, and searching records.
+## Project Structure
+```
+├───src
+│   ├───main
+│   │   ├───java
+│   │   │   └───com
+│   │   │       └───deneth
+│   │   │           └───management_app
+│   │   │               ├───api
+│   │   │               ├───dto
+│   │   │               │   ├───request
+│   │   │               │   └───response
+│   │   │               │       └───Paginate
+│   │   │               ├───entity
+│   │   │               ├───repository
+│   │   │               ├───service
+│   │   │               │   └───impl
+│   │   │               └───util
+│   │   └───resources
+│   │       ├───static
+│   │       └───templates
+│   └───test
+│       └───java
+│           └───com
+│               └───deneth
+│                   └───management_app
+```
 ## Customer Base URL
 
 ```
@@ -21,62 +47,24 @@ http://localhost:8081/api/v1/customers
 | **GET**    | `/search?searchText=&page=&size=` | Searches for customers using query parameters.          |
 | **PUT**    | `/change-state/{id}`              | Changes the state of a customer record using the given ID. |
 
-### Request & Response Examples
-
-#### 1. Create Customer
-
-**Request:**
-
-```json
-{
-    "name": "Deneth",
-    "address": "Hikkaduwa",
-    "salary": 230000
-}
-```
-
-**Response:** `201 Created`
-
-#### 2. Update Customer
-
-**Request:**
-
-```json
-{
-    "name": "Deneth",
-    "address": "Rathmalana",
-    "salary": 230000
-}
-```
-
-**Response:** `201 Updated`
-
-#### 3. Delete Customer
-
-**Response:** `204 No Content`
-
-#### 4. Find Customer by ID
-
-**Response:** `200 OK` (Customer details in JSON format)
-
-#### 5. Search Customers
-
-**Example Request:**
+## Products Base URL
 
 ```
-GET /search?searchText=Deneth&page=1&size=10
+http://localhost:8081/api/v1/products
 ```
 
-**Response:** `200 OK` (List of matching customers)
+## Products API Endpoints
 
-#### 6. Change Customer State
+| Method  | Endpoint                 | Description                                   |
+|---------|--------------------------|-----------------------------------------------|
+| POST    | `/`                      | Create a new product                         |
+| PUT     | `/{id}`                  | Update an existing product                   |
+| GET     | `/{id}`                  | Retrieve a product by ID                     |
+| GET     | `/search`                 | Search for products with pagination          |
+| DELETE  | `/{id}`                  | Delete a product by ID                       |
+| PUT     | `/change-qty/{id}`       | Update the quantity of a product by ID       |
 
-**Example Request:**
-```
-PUT /change-state/{id}
-```
 
-**Response:** `200 OK`
 
 ## Dependencies
 - **Spring Boot Starter Data JPA**  
