@@ -22,8 +22,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto createProduct(ProductRequestDto dto) {
         String id = UUID.randomUUID().toString();
-        repo.save(toProduct(dto, id));
-        return getProduct(id);
+        Product product = toProduct(dto, id);
+
+        try {
+            repo.save(product);
+            return toProductResponseDto(product);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create product", e);
+        }
     }
 
     @Override
