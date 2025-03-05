@@ -13,7 +13,9 @@ public class Item {
     @Id
     @Column(name = "item_id", unique = true, nullable = false)
     private String id;
-
+    @Column(nullable = false)
+    private double unitPrice;
+    @Column(nullable = false)
     private int qty;
 
     @ManyToOne

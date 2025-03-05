@@ -4,6 +4,7 @@ import com.deneth.management_app.dto.request.ProductRequestDto;
 import com.deneth.management_app.dto.response.Paginate.ProductPaginatedDto;
 import com.deneth.management_app.dto.response.ProductResponseDto;
 import com.deneth.management_app.entity.Product;
+import com.deneth.management_app.exception.EntryNotFoundException;
 import com.deneth.management_app.repository.ProductRepo;
 import com.deneth.management_app.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto createProduct(ProductRequestDto dto) {
-        String id = UUID.randomUUID().toString();
-        Product product = toProduct(dto, id);
+        Product product = toProduct(dto);
 
         try {
             repo.save(product);
@@ -34,15 +34,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(ProductRequestDto dto, String id) {
-        Optional<Product> selectedProduct =
-                repo.findById(id);
-        if(selectedProduct.isEmpty()){
-            throw new RuntimeException("Product Not Found"); // this must be an entry not found exception
-        }
-        selectedProduct.get().setDescription(dto.getDescription());
-        selectedProduct.get().setUnitPrice(dto.getUnitPrice());
-        selectedProduct.get().setQtyOnHand(dto.getQtyOnHand());
-        repo.save(selectedProduct.get());
+        Product selectedProduct = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Product Not Found"));
+
+        selectedProduct.setDescription(dto.getDescription());
+        selectedProduct.setUnitPrice(dto.getUnitPrice());
+        selectedProduct.setQtyOnHand(dto.getQtyOnHand());
+        repo.save(selectedProduct);
     }
 
     @Override
@@ -52,23 +50,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void manageQtyOnHand(String id, int qty) {
-        Optional<Product> selectedProduct = repo.findById(id);
-        if(selectedProduct.isEmpty()){
-            throw new RuntimeException("selected Product Not Found"); // this must be an entry not found exception
-        }
-        selectedProduct.get()
-                .setQtyOnHand(qty);
+        Product selectedProduct = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Selected Product Not Found"));
+
+        selectedProduct.setQtyOnHand(qty);
     }
 
+    // Updated method with EntryNotFoundException and orElseThrow
     @Override
     public ProductResponseDto getProduct(String id) {
-        Optional<Product> selectedProduct = repo.findById(id);
-        if(selectedProduct.isEmpty()){
-            throw new RuntimeException("selected Product Not Found"); // this must be an entry not found exception
-        }
-        return toProductResponseDto(
-                selectedProduct.get()
-        );
+        Product selectedProduct = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Selected Product Not Found"));
+
+        return toProductResponseDto(selectedProduct);
     }
 
     @Override
@@ -88,8 +82,9 @@ public class ProductServiceImpl implements ProductService {
                         repo.searchCount(searchText)
                 ).build();
     }
-    private Product toProduct(ProductRequestDto dto, String id
+    private Product toProduct(ProductRequestDto dto
     ){
+        String id = UUID.randomUUID().toString();
         return  Product.builder()
                 .productId(id)
                 .description(dto.getDescription())

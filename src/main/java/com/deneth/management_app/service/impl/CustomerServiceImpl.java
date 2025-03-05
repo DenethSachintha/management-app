@@ -4,6 +4,7 @@ import com.deneth.management_app.dto.request.CustomerRequestDto;
 import com.deneth.management_app.dto.response.CustomerResponseDto;
 import com.deneth.management_app.dto.response.Paginate.CustomerPaginatedDto;
 import com.deneth.management_app.entity.Customer;
+import com.deneth.management_app.exception.EntryNotFoundException;
 import com.deneth.management_app.repository.CustomerRepo;
 import com.deneth.management_app.service.CustomerService;
 import jakarta.transaction.Transactional;
@@ -11,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,17 +29,13 @@ public class CustomerServiceImpl
 
     @Override
     public void updateCustomer(CustomerRequestDto dto, String id) {
-        Optional<Customer> selectedCustomer =
-                repo.findById(id);
-        if(selectedCustomer.isEmpty()){
-            throw new RuntimeException("Customer Not Found"); // this must be an entry not found exception
-        }
-        selectedCustomer.get().setName(dto.getName());
-        selectedCustomer.get().setAddress(dto.getAddress());
-        selectedCustomer.get().setSalary(dto.getSalary());
-        repo.save(selectedCustomer.get());
+        Customer selectedCustomer = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
+        selectedCustomer.setName(dto.getName());
+        selectedCustomer.setAddress(dto.getAddress());
+        selectedCustomer.setSalary(dto.getSalary());
+        repo.save(selectedCustomer);
     }
-
     @Override
     public void deleteCustomer(String id) {
         repo.deleteById(id);
@@ -47,27 +43,18 @@ public class CustomerServiceImpl
 
     @Override
     public CustomerResponseDto getCustomer(String id) {
-        Optional<Customer> selectedCustomer = repo.findById(id);
-        if(selectedCustomer.isEmpty()){
-            throw new RuntimeException("Customer Not Found"); // this must be an entry not found exception
-        }
-        return toCustomerResponseDto(
-                selectedCustomer.get()
-        );
+        Customer selectedCustomer = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
+
+        return toCustomerResponseDto(selectedCustomer);
     }
 
     @Override
     public void manageStatus(String id) {
-        Optional<Customer> selectedCustomer = repo.findById(id);
-        if(selectedCustomer.isEmpty()){
-            throw new RuntimeException("Customer Not Found"); // this must be an entry not found exception
-        }
-        selectedCustomer.get()
-                .setStatus(
-                        !selectedCustomer.get()
-                                .isStatus()
-                );
+        Customer selectedCustomer = repo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
 
+        selectedCustomer.setStatus(!selectedCustomer.isStatus());
     }
 
     @Override

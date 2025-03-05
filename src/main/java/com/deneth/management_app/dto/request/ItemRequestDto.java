@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemRequestDto {
+    private String id;
+    private double unitPrice;
     private int qty;
 }

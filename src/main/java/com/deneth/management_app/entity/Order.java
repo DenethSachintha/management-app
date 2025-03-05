@@ -21,7 +21,7 @@ public class Order {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-
+    @Column(nullable = false)
     private double nett;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
