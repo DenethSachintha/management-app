@@ -24,18 +24,16 @@ public class Order {
     @Column(nullable = false)
     private double nett;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Item> items = new ArrayList<>();
 
-    public List<Item> getItems() {
-        if (items == null) {
-            items = new ArrayList<>();
-        }
-        return items;
-    }
-
     public void addItem(Item item) {
-        getItems().add(item);
+        items.add(item);
         item.setOrder(this);
     }
 }

@@ -2,12 +2,15 @@ package com.deneth.management_app.service.impl;
 
 import com.deneth.management_app.dto.request.ItemRequestDto;
 import com.deneth.management_app.dto.request.OrderRequestDto;
+import com.deneth.management_app.dto.response.CustomerResponseDto;
 import com.deneth.management_app.dto.response.ItemResponseDto;
 import com.deneth.management_app.dto.response.OrderResponseDto;
 import com.deneth.management_app.dto.response.Paginate.OrderPaginateDto;
+import com.deneth.management_app.entity.Customer;
 import com.deneth.management_app.entity.Item;
 import com.deneth.management_app.entity.Order;
 import com.deneth.management_app.exception.EntryNotFoundException;
+import com.deneth.management_app.repository.CustomerRepo;
 import com.deneth.management_app.repository.OrderRepo;
 import com.deneth.management_app.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +25,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
+    private final CustomerRepo customerRepo;
 
     public OrderResponseDto create(OrderRequestDto dto) {
         Order order = toOrder(dto);
-        orderRepo.save(order);
-
         try {
             orderRepo.save(order);
             return toOrderResponseDto(order);
@@ -40,8 +42,10 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepo.findById(orderId)
                         .orElseThrow(() -> new EntryNotFoundException("Order Not Found"));
+        Customer customer = customerRepo.findById(dto.getCustomerId())
+                .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
         order.setNett(dto.getNett());
-
+        order.setCustomer(customer);
         order.getItems().clear();
         for (ItemRequestDto itemDto : dto.getItems()) {
             Item item = new Item();
@@ -83,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderId(order.getOrderId())
                 .date(order.getDate())
                 .nett(order.getNett())
+                .customer(toCustomerResponseDto(order.getCustomer()))
                 .items(order.getItems().stream()
                         .map(this::toItemResponseDto)
                         .collect(Collectors.toList()))
@@ -99,10 +104,14 @@ public class OrderServiceImpl implements OrderService {
 
     private Order toOrder(OrderRequestDto dto) {
         String orderId = UUID.randomUUID().toString();
+        Customer customer = customerRepo.findById(dto.getCustomerId())
+                .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
+
         Order order = Order.builder()
                 .orderId(orderId)
                 .date(new Date())
                 .nett(dto.getNett())
+                .customer(customer) // Set the customer
                 .build();
 
         dto.getItems().forEach(itemDto -> {
@@ -116,5 +125,15 @@ public class OrderServiceImpl implements OrderService {
         });
         return order;
     }
-
+    private CustomerResponseDto toCustomerResponseDto(
+            Customer c
+    ){
+        return c==null?null:  CustomerResponseDto.
+                builder()
+                .id(c.getCustomerId())
+                .name(c.getName())
+                .address(c.getAddress())
+                .salary(c.getSalary())
+                .status(c.isStatus()).build();
+    }
 }

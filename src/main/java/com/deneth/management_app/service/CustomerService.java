@@ -6,8 +6,8 @@ import com.deneth.management_app.dto.response.CustomerResponseDto;
 import com.deneth.management_app.dto.response.Paginate.CustomerPaginatedDto;
 
 public interface CustomerService {
-    public void createCustomer(CustomerRequestDto dto);
-    public void updateCustomer(CustomerRequestDto dto, String id);
+    public CustomerResponseDto createCustomer(CustomerRequestDto dto);
+    public CustomerResponseDto updateCustomer(CustomerRequestDto dto, String id);
     public void deleteCustomer(String id);
     public CustomerResponseDto getCustomer(String id);
     public void manageStatus(String id);

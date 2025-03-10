@@ -4,6 +4,7 @@ import com.deneth.management_app.dto.request.CustomerRequestDto;
 import com.deneth.management_app.dto.response.CustomerResponseDto;
 import com.deneth.management_app.dto.response.Paginate.CustomerPaginatedDto;
 import com.deneth.management_app.entity.Customer;
+import com.deneth.management_app.entity.Product;
 import com.deneth.management_app.exception.EntryNotFoundException;
 import com.deneth.management_app.repository.CustomerRepo;
 import com.deneth.management_app.service.CustomerService;
@@ -23,18 +24,29 @@ public class CustomerServiceImpl
     private final CustomerRepo repo;
 
     @Override
-    public void createCustomer(CustomerRequestDto dto) {
-        repo.save(toCustomer(dto));
+    public CustomerResponseDto createCustomer(CustomerRequestDto dto) {
+        Customer customer = toCustomer(dto);
+        try {
+            repo.save(customer);
+            return toCustomerResponseDto(customer);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create product", e);
+        }
     }
 
     @Override
-    public void updateCustomer(CustomerRequestDto dto, String id) {
+    public CustomerResponseDto updateCustomer(CustomerRequestDto dto, String id) {
         Customer selectedCustomer = repo.findById(id)
                 .orElseThrow(() -> new EntryNotFoundException("Customer Not Found"));
         selectedCustomer.setName(dto.getName());
         selectedCustomer.setAddress(dto.getAddress());
         selectedCustomer.setSalary(dto.getSalary());
-        repo.save(selectedCustomer);
+        try {
+            repo.save(selectedCustomer);
+            return toCustomerResponseDto(selectedCustomer);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create product", e);
+        }
     }
     @Override
     public void deleteCustomer(String id) {

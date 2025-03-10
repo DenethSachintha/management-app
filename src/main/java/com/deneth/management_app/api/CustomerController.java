@@ -1,41 +1,42 @@
 package com.deneth.management_app.api;
 
 import com.deneth.management_app.dto.request.CustomerRequestDto;
+import com.deneth.management_app.dto.response.CustomerResponseDto;
 import com.deneth.management_app.service.CustomerService;
 import com.deneth.management_app.util.StandardResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/customers")
 @AllArgsConstructor
 public class CustomerController {
     private final CustomerService service;
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<StandardResponseDto>
     create(
 
             @RequestBody CustomerRequestDto dto){
-        service.createCustomer(dto);
+        CustomerResponseDto data = service.createCustomer(dto);
         return new ResponseEntity<>(
                 new StandardResponseDto(
-                        201,"customer has been saved!",null
+                        201,"customer has been saved!",data
                 ),
                 HttpStatus.CREATED
         );
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StandardResponseDto>
     update(
             @RequestBody CustomerRequestDto dto,
             @PathVariable String id
     ){
-        service.updateCustomer(dto,id);
+        CustomerResponseDto data = service.updateCustomer(dto,id);
         return new ResponseEntity<>(
                 new StandardResponseDto(
-                        201,"customer has been updated!",null
+                        201,"customer has been updated!",data
                 ),
                 HttpStatus.CREATED
         );
@@ -69,6 +70,7 @@ public class CustomerController {
                 HttpStatus.OK
         );
     }
+
     @GetMapping("/search")
     public ResponseEntity<StandardResponseDto>
     search(

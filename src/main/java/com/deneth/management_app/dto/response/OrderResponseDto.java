@@ -16,4 +16,5 @@ public class OrderResponseDto {
     private Date date;
     private double nett;
     private List<ItemResponseDto> items;
+    private CustomerResponseDto customer;
 }
