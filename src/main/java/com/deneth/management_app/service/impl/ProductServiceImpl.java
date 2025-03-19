@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(ProductRequestDto dto, String id) {
         Product selectedProduct = repo.findById(id)
                 .orElseThrow(() -> new EntryNotFoundException("Product Not Found"));
-
+        selectedProduct.setName(dto.getName());
         selectedProduct.setDescription(dto.getDescription());
         selectedProduct.setUnitPrice(dto.getUnitPrice());
         selectedProduct.setQtyOnHand(dto.getQtyOnHand());
@@ -56,7 +56,6 @@ public class ProductServiceImpl implements ProductService {
         selectedProduct.setQtyOnHand(qty);
     }
 
-    // Updated method with EntryNotFoundException and orElseThrow
     @Override
     public ProductResponseDto getProduct(String id) {
         Product selectedProduct = repo.findById(id)
@@ -82,25 +81,26 @@ public class ProductServiceImpl implements ProductService {
                         repo.searchCount(searchText)
                 ).build();
     }
-    private Product toProduct(ProductRequestDto dto
-    ){
+    private Product toProduct(ProductRequestDto dto) {
         String id = UUID.randomUUID().toString();
-        return  Product.builder()
+        return Product.builder()
                 .productId(id)
+                .name(dto.getName())
                 .description(dto.getDescription())
                 .unitPrice(dto.getUnitPrice())
                 .qtyOnHand(dto.getQtyOnHand())
+                .images(dto.getImages())
                 .build();
     }
-    private ProductResponseDto toProductResponseDto(
-            Product product
-    ){
-        return product==null?null:  ProductResponseDto.
-                builder()
+
+    private ProductResponseDto toProductResponseDto(Product product) {
+        return product == null ? null : ProductResponseDto.builder()
                 .id(product.getProductId())
+                .name(product.getName())
                 .description(product.getDescription())
                 .unitPrice(product.getUnitPrice())
                 .qtyOnHand(product.getQtyOnHand())
+                .images(product.getImages())
                 .build();
     }
 }
